@@ -8,8 +8,12 @@ public class Road {
 	// to keep the board graphics functional use at least these variables and
 	// methods:
 	private Color color;
-
-	public Road(char color) {
+	private int[] firstCoordinate = new int[1];
+	private int[] secondCoordinate = new int[1];
+	
+	public Road(char color, int[] firstCoordinate, int[] secondCoordinate) {
+		this.firstCoordinate = firstCoordinate;
+		this.secondCoordinate = secondCoordinate;
 		switch (color) {
 		case 'w':
 			this.color = Color.white;
@@ -41,5 +45,21 @@ public class Road {
 		case 'b':
 			this.color = Color.blue;
 		}
+	}
+
+	public int[] getFirstCoordinate() {
+		return firstCoordinate;
+	}
+
+	public void setFirstCoordinate(int[] firstCoordinate) {
+		this.firstCoordinate = firstCoordinate;
+	}
+
+	public int[] getSecondCoordinate() {
+		return secondCoordinate;
+	}
+
+	public void setSecondCoordinate(int[] secondCoordinate) {
+		this.secondCoordinate = secondCoordinate;
 	}
 }

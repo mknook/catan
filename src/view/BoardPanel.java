@@ -107,51 +107,51 @@ public class BoardPanel extends JPanel {
 			}
 		}
 
-		// draw the roads
-		// niet jouw business btw
-		// verboden te lezen
-		// nee doe het niet
-		// ik zei nee
+		// draw roads here
 		for (x = 0; x < maxX; x++) {
 			for (y = 0; y < maxY; y++) {
-				// draw a road to the north
-				if (board[x][y].getNorth() != null) {
-					Road currentRoad = board[x][y].getNorth();
-					g.setColor(currentRoad.getColor());
-					g.fillRect(Location.getCanvasX(x, width) + HEX_WIDTH / 2 - 4, Location.getCanvasY(x, y, height),
-							ROAD_WIDTH, ROAD_HEIGHT);
-				}
-				if (board[x][y].getSouthWest() != null) {
-					Road currentRoad = board[x][y].getSouthWest();
-					Rectangle rectangle = new Rectangle();
-					// rectangle.setLocation(Location.getX(x,
-					// width)+HEX_WIDTH/2-4, Location.getY(x, y, height));
-					rectangle.setBounds(Location.getCanvasX(x, width) + HEX_WIDTH / 4 - 4,
-							Location.getCanvasY(x, y, height) + HEX_HEIGHT / 4 + 24, ROAD_WIDTH, ROAD_HEIGHT);
-					AffineTransform transform = new AffineTransform();
-					transform.rotate(Math.toRadians(57), rectangle.getX() + rectangle.width / 2,
-							rectangle.getY() + rectangle.height / 2);
-					Graphics2D g2d = (Graphics2D) g;
-					g2d.setColor(currentRoad.getColor());
-					Shape transformed = transform.createTransformedShape(rectangle);
-					g2d.fill(transformed);
-
-				}
-				if (board[x][y].getSouthEast() != null) {
-					Road currentRoad = board[x][y].getSouthEast();
-					Rectangle rectangle = new Rectangle();
-					// rectangle.setLocation(Location.getX(x,
-					// width)+HEX_WIDTH/2-4, Location.getY(x, y, height));
-					rectangle.setBounds(Location.getCanvasX(x, width) - HEX_WIDTH / 4 - 4 + HEX_WIDTH,
-							Location.getCanvasY(x, y, height) + HEX_HEIGHT / 4 + 25, ROAD_WIDTH, ROAD_HEIGHT);
-					AffineTransform transform = new AffineTransform();
-					transform.rotate(Math.toRadians(-57), rectangle.getX() + rectangle.width / 2,
-							rectangle.getY() + rectangle.height / 2);
-					Graphics2D g2d = (Graphics2D) g;
-					g2d.setColor(currentRoad.getColor());
-					Shape transformed = transform.createTransformedShape(rectangle);
-					g2d.fill(transformed);
-
+				
+				// from bottom to top
+				for(int counter = 0; counter < 3; counter++){
+					if(board[x][y].getRoad(counter) != null) {
+						Road currentRoad = board[x][y].getRoad(counter);
+						int[] firstCoordinate = currentRoad.getFirstCoordinate();
+						int[] secondCoordinate = currentRoad.getSecondCoordinate();
+						if((firstCoordinate[0] == secondCoordinate[0]) && (firstCoordinate[1]+1 == secondCoordinate[1])){
+							g.setColor(currentRoad.getColor());
+							g.fillRect(Location.getCanvasX(x, width) + HEX_WIDTH / 2 - 4, Location.getCanvasY(x, y, height),
+									ROAD_WIDTH, ROAD_HEIGHT);
+						
+						}
+						
+						// down left
+						else if(firstCoordinate[0]-1 == secondCoordinate[0] && (firstCoordinate[1]-1 == secondCoordinate[1])){
+							Rectangle rectangle = new Rectangle();
+							rectangle.setBounds(Location.getCanvasX(x, width) + HEX_WIDTH / 4 - 4,
+									Location.getCanvasY(x, y, height) + HEX_HEIGHT / 4 + 24, ROAD_WIDTH, ROAD_HEIGHT);
+							AffineTransform transform = new AffineTransform();
+							transform.rotate(Math.toRadians(57), rectangle.getX() + rectangle.width / 2,
+									rectangle.getY() + rectangle.height / 2);
+							Graphics2D g2d = (Graphics2D) g;
+							g2d.setColor(currentRoad.getColor());
+							Shape transformed = transform.createTransformedShape(rectangle);
+							g2d.fill(transformed);
+						}
+						
+						// down right
+						else if(firstCoordinate[0]+1 == secondCoordinate[0] && firstCoordinate[1] == secondCoordinate[1]){
+							Rectangle rectangle = new Rectangle();
+							rectangle.setBounds(Location.getCanvasX(x, width) - HEX_WIDTH / 4 - 4 + HEX_WIDTH,
+									Location.getCanvasY(x, y, height) + HEX_HEIGHT / 4 + 25, ROAD_WIDTH, ROAD_HEIGHT);
+							AffineTransform transform = new AffineTransform();
+							transform.rotate(Math.toRadians(-57), rectangle.getX() + rectangle.width / 2,
+									rectangle.getY() + rectangle.height / 2);
+							Graphics2D g2d = (Graphics2D) g;
+							g2d.setColor(currentRoad.getColor());
+							Shape transformed = transform.createTransformedShape(rectangle);
+							g2d.fill(transformed);
+						}
+					}
 				}
 			}
 		}
@@ -274,8 +274,7 @@ public class BoardPanel extends JPanel {
 		return image;
 	}
 
-	// randomize the tiles their location, DONT CHANGE ANYTHING, changing a
-	// variable will change the board
+	
 	// WIP method
 	void generateBoard() {
 		initLocations();
@@ -355,18 +354,7 @@ public class BoardPanel extends JPanel {
 				if (x == 4 && y == 6) {
 
 					Location newLocation = new Location(x, y);
-					newLocation.setSouthWest(new Road('r'));
-					newLocation.setNorth(new Road('b'));
-					newLocation.setSouthEast(new Road('w'));
-					newLocation.setBuilding(new Village('r'));
-					board[x][y] = newLocation;
-				} else if (x == 6 && y == 7) {
-					Location newLocation = new Location(x, y);
-					newLocation.setSouthWest(new Road('r'));
-					newLocation.setNorth(new Road('b'));
-					newLocation.setSouthEast(new Road('w'));
-					newLocation.setBuilding(new City('r'));
-
+					
 					board[x][y] = newLocation;
 				}
 				String coordinates = Integer.toString(x) + "," + Integer.toString(y);

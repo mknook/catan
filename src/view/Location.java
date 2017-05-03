@@ -10,14 +10,12 @@ public class Location {
 
 	private Tile tile;
 	private Village building;
-	private Road north;
-	private Road southWest;
-	private Road southEast;
 	private Port port;
-
+	
+	private Road[] roads = new Road[3];
 	private int x;
 	private int y;
-
+	
 	public Location(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -47,36 +45,12 @@ public class Location {
 		this.building = building;
 	}
 
-	public Road getNorth() {
-		return north;
-	}
-
-	public void setNorth(Road north) {
-		this.north = north;
-	}
-
-	public Road getSouthWest() {
-		return southWest;
-	}
-
-	public void setSouthWest(Road southWest) {
-		this.southWest = southWest;
-	}
-
-	public Road getSouthEast() {
-		return southEast;
-	}
-
 	public Port getPort() {
 		return port;
 	}
 
 	public void setPort(Port port) {
 		this.port = port;
-	}
-
-	public void setSouthEast(Road southEast) {
-		this.southEast = southEast;
 	}
 
 	static int getCanvasX(int locX, int width) {
@@ -94,6 +68,14 @@ public class Location {
 		int HEX_OFFSET = 3;
 		int y = ((height / 2) - (locY * (HEX_HEIGHT / 2 - HEX_OFFSET)) + (locX * HEX_HEIGHT / 4) + (180));
 		return y;
+	}
+
+	Road getRoad(int index){
+		return roads[index];
+	}
+	
+	void setRoad(Road road, int index){
+		roads[index] = road;
 	}
 
 }
