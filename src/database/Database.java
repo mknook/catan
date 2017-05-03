@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import com.mysql.jdbc.Statement;
 
@@ -197,5 +198,53 @@ public class Database {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
 	}
+	
+	public ResultSet getChat(){
+		try {
+			Connection conn = DriverManager.getConnection(url, username, password);
 
+			System.out.println("Fetching chat!");
+
+			Statement st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery(
+					"SELECT bericht FROM chatregel");
+			return rs;
+
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+	}
+	
+	public int getRowCount(ResultSet resultSet) {
+	    if (resultSet == null) {
+	        return 0;
+	    }
+	    try {
+	        resultSet.last();
+	        return resultSet.getRow();
+	    } catch (SQLException exp) {
+	        exp.printStackTrace();
+	    } finally {
+	        try {
+	            resultSet.beforeFirst();
+	        } catch (SQLException exp) {
+	            exp.printStackTrace();
+	        }
+	    }
+	    return 0;
+	}
+
+	public void addChatRow(String message){
+		try {
+			Connection conn = DriverManager.getConnection(url, username, password);
+
+			Statement st = (Statement) conn.createStatement();
+
+			st.execute("INSERT INTO `yson_db`.`chatregel` (`idspel`, `username`, `tijdstip`, `bericht`) VALUES ('771', 'dummy', '" + LocalDateTime.now() + "', '" + message +"')");
+
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+	}
 }
