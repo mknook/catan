@@ -374,33 +374,42 @@ public class BoardPanel extends JPanel {
 				switch (coordinates) {
 				case "3,8":
 					newLocation.setPort(new Port("3-1"));
+					board[x][y] = newLocation;
 					break;
 				case "4,1":
 					newLocation.setPort(new Port("3-1"));
+					board[x][y] = newLocation;
 					break;
 				case "2,2":
 					newLocation.setPort(new Port("B"));
+					board[x][y] = newLocation;
 					break;
 				case "2,5":
 					newLocation.setPort(new Port("H"));
+					board[x][y] = newLocation;
 					break;
 				case "6,10":
 					newLocation.setPort(new Port("G"));
+					board[x][y] = newLocation;
 					break;
 				case "9,10":
 					newLocation.setPort(new Port("E"));
+					board[x][y] = newLocation;
 					break;
 				case "11,9":
 					newLocation.setPort(new Port("3-1"));
+					board[x][y] = newLocation;
 					break;
 				case "9,5":
 					newLocation.setPort(new Port("W"));
+					board[x][y] = newLocation;
 					break;
 				case "6,2":
 					newLocation.setPort(new Port("3-1"));
+					board[x][y] = newLocation;
 					break;
 				}
-				board[x][y] = newLocation;
+				
 			}
 		}
 	}
