@@ -199,9 +199,7 @@ public class Database {
 		}
 	}
 	
-<<<<<<< HEAD
-	
-=======
+
 	public ResultSet getChat(){
 		try {
 			Connection conn = DriverManager.getConnection(url, username, password);
@@ -250,5 +248,4 @@ public class Database {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
 	}
->>>>>>> 02d6212a6f21e69bd89739d9272f10a6c6ddaba1
 }
