@@ -12,8 +12,13 @@ public class GameFrame extends JFrame {
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		left.add(new PlayersInformationPanel());
 		left.add(new InventoryPanel());
+		JPanel right = new JPanel();
+		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+		right.add(new ChatPanel());
+		
 		this.getContentPane().add(left);
 		this.getContentPane().add(new BoardPanel());
+		this.getContentPane().add(right);
 		this.setLocation(0, 0);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(true);
