@@ -25,8 +25,6 @@ public class Database {
 		try {
 			Connection conn = DriverManager.getConnection(url, username, password);
 
-			System.out.println("Connected!");
-
 			Statement st = (Statement) conn.createStatement();
 
 			st.execute("INSERT INTO account (username, wachtwoord) VALUES ('" + loginName + "', '" + pass + "')");
