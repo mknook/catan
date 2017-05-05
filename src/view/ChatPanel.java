@@ -24,6 +24,7 @@ public class ChatPanel extends JPanel {
 	private String lastSendMessage;
 	private boolean canSend = true;
 	private boolean updateNow = true;
+	private int rowCount = db.getRowCount(db.getChat());
 	private Runnable updateChat = new Runnable() {
 		public void run() {
 			updateChat();
@@ -45,6 +46,7 @@ public class ChatPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (canSend && inputArea.getText().trim().length() > 0) {
+					rowCount = db.getRowCount(db.getChat());
 					lastSendMessage = inputArea.getText();
 					canSend = false;
 					updateNow = false;
@@ -59,8 +61,10 @@ public class ChatPanel extends JPanel {
 					textArea.append(playerName + ": " + inputArea.getText() + "\n");
 					int end;
 					try {
+						if (rowCount >= 28){
 						end = textArea.getLineEndOffset(0);
 						textArea.replaceRange("", 0, end);
+						}
 					} catch (BadLocationException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

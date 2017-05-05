@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.mysql.jdbc.Statement;
 
@@ -199,60 +201,79 @@ public class Database {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
 	}
-	
-	public ResultSet getChat(){
+
+	public ResultSet getChat() {
 		try {
 			Connection conn = DriverManager.getConnection(url, username, password);
 
-			
-
 			Statement st = (Statement) conn.createStatement();
 
-			ResultSet rs = st.executeQuery(
-					"SELECT bericht FROM chatregel");
+			ResultSet rs = st.executeQuery("SELECT bericht FROM chatregel");
 			return rs;
 
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
 	}
-	
+
 	public int getRowCount(ResultSet resultSet) {
-	    if (resultSet == null) {
-	        return 0;
-	    }
-	    try {
-	        resultSet.last();
-	        return resultSet.getRow();
-	    } catch (SQLException exp) {
-	        exp.printStackTrace();
-	    } finally {
-	        try {
-	            resultSet.beforeFirst();
-	        } catch (SQLException exp) {
-	            exp.printStackTrace();
-	        }
-	    }
-	    return 0;
+		if (resultSet == null) {
+			return 0;
+		}
+		try {
+			resultSet.last();
+			return resultSet.getRow();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			try {
+				resultSet.beforeFirst();
+			} catch (SQLException exp) {
+				exp.printStackTrace();
+			}
+		}
+		return 0;
 	}
 
-	public void addChatRow(String message){
+	public void addChatRow(String message) {
 		try {
+			
+			// correct the string if contains a apostrophe as to not create an invalid query.
+			ArrayList<Character> messageArray = new ArrayList<Character>();
+			for (char c : message.toCharArray()) {
+				 messageArray.add(c);
+				}
+			int i = messageArray.size();
+			for(int index = 0; index < i; index++){
+				if(messageArray.get(index) == "'".toCharArray()[0]){
+					
+					messageArray.add(index, "'".toCharArray()[0]);
+					index++;
+				}
+			}
+			String output = "";
+			for(Character character : messageArray){
+				output = output + character.toString();
+			}
+			
+			
 			Connection conn = DriverManager.getConnection(url, username, password);
 
 			Statement st = (Statement) conn.createStatement();
 
-			st.execute("INSERT INTO `yson_db`.`chatregel` (`idspel`, `username`, `tijdstip`, `bericht`) VALUES ('771', 'dummy', '" + LocalDateTime.now() + "', '" + message +"')");
-			if(getRowCount(st.executeQuery("SELECT * FROM chatregel")) > 28){
+			st.execute(
+					"INSERT INTO `yson_db`.`chatregel` (`idspel`, `username`, `tijdstip`, `bericht`) VALUES ('771', 'dummy', '"
+							+ LocalDateTime.now() + "', '" + output + "')");
+			if (getRowCount(st.executeQuery("SELECT * FROM chatregel")) > 28) {
 				deleteFirstChatRow();
 			}
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
-		
+
 	}
-	
-	public void deleteFirstChatRow(){
+
+	public void deleteFirstChatRow() {
 		try {
 			Connection conn = DriverManager.getConnection(url, username, password);
 
@@ -262,11 +283,12 @@ public class Database {
 			rs.isBeforeFirst();
 			rs.next();
 			int idSpel = rs.getInt(1);
-			
+
 			String username = rs.getString(2);
 			Timestamp tijdstip = rs.getTimestamp(3);
-			
-			st.execute("DELETE FROM `yson_db`.`chatregel` WHERE `idspel`='" + idSpel + "' and`username`='"+ username +"' and`tijdstip`='"+ tijdstip +"';");
+
+			st.execute("DELETE FROM `yson_db`.`chatregel` WHERE `idspel`='" + idSpel + "' and`username`='" + username
+					+ "' and`tijdstip`='" + tijdstip + "';");
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
