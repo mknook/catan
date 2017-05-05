@@ -44,7 +44,7 @@ public class ChatPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (canSend) {
+				if (canSend && inputArea.getText().trim().length() > 0) {
 					lastSendMessage = inputArea.getText();
 					canSend = false;
 					updateNow = false;
