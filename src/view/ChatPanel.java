@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -20,11 +18,18 @@ import database.Database;
 public class ChatPanel extends JPanel {
 	private Database db = new Database();
 	// placeholder
-	String playerName = "Speler 1";
-	JTextArea textArea = new JTextArea();
-	JTextField inputArea = new JTextField();
-	int amountOfLines = 0;
-	boolean canSend = true;
+	private String playerName = "Speler 1";
+	private JTextArea textArea = new JTextArea();
+	private JTextField inputArea = new JTextField();
+	private String lastSendMessage;
+	private boolean canSend = true;
+	private boolean updateNow = true;
+	private Runnable updateChat = new Runnable() {
+		public void run() {
+			updateChat();
+		}
+	};
+
 	public ChatPanel() {
 
 		// removes the margin on the top
@@ -36,23 +41,43 @@ public class ChatPanel extends JPanel {
 		inputArea.setPreferredSize(new Dimension(300, 30));
 
 		inputArea.addActionListener(new ActionListener() {
-			// TO-DO: make this method write to database then fetch updated
-			// version from database
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(canSend){
+				if (canSend) {
+					lastSendMessage = inputArea.getText();
 					canSend = false;
-				db.addChatRow(playerName + ": " + inputArea.getText());
-				inputArea.setText("");
-				amountOfLines++;
-				Timer timer = new Timer(1000, new ActionListener() {
-					  @Override
-					  public void actionPerformed(ActionEvent arg0) {
-					    canSend = true;
-					  }
+					updateNow = false;
+					Runnable addRow = new Runnable() {
+						public void run() {
+							db.addChatRow(playerName + ": " + lastSendMessage);
+						}
+					};
+
+					new Thread(addRow).start();
+
+					textArea.append(playerName + ": " + inputArea.getText() + "\n");
+					int end;
+					try {
+						end = textArea.getLineEndOffset(0);
+						textArea.replaceRange("", 0, end);
+					} catch (BadLocationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					inputArea.setText("");
+
+					
+					Timer timer = new Timer(1000, new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							canSend = true;
+							updateNow = true;
+						}
 					});
 					timer.setRepeats(false);
-					timer.start(); 
+					timer.start();
 				}
 			}
 
@@ -60,7 +85,9 @@ public class ChatPanel extends JPanel {
 		Timer timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(updateNow){
 				updateChat();
+				}
 			}
 		});
 		timer.setInitialDelay(0);
@@ -73,7 +100,7 @@ public class ChatPanel extends JPanel {
 	private void updateChat() {
 		ResultSet rs = db.getChat();
 		textArea.setText("");
-		
+
 		try {
 			while (rs.next()) {
 
