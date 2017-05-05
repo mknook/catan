@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import com.mysql.jdbc.Statement;
@@ -203,7 +204,7 @@ public class Database {
 		try {
 			Connection conn = DriverManager.getConnection(url, username, password);
 
-			System.out.println("Fetching chat!");
+			
 
 			Statement st = (Statement) conn.createStatement();
 
@@ -242,7 +243,30 @@ public class Database {
 			Statement st = (Statement) conn.createStatement();
 
 			st.execute("INSERT INTO `yson_db`.`chatregel` (`idspel`, `username`, `tijdstip`, `bericht`) VALUES ('771', 'dummy', '" + LocalDateTime.now() + "', '" + message +"')");
+			if(getRowCount(st.executeQuery("SELECT * FROM chatregel")) > 28){
+				deleteFirstChatRow();
+			}
+		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+		
+	}
+	
+	public void deleteFirstChatRow(){
+		try {
+			Connection conn = DriverManager.getConnection(url, username, password);
 
+			Statement st = (Statement) conn.createStatement();
+
+			ResultSet rs = st.executeQuery("SELECT * FROM chatregel ORDER BY tijdstip");
+			rs.isBeforeFirst();
+			rs.next();
+			int idSpel = rs.getInt(1);
+			
+			String username = rs.getString(2);
+			Timestamp tijdstip = rs.getTimestamp(3);
+			
+			st.execute("DELETE FROM `yson_db`.`chatregel` WHERE `idspel`='" + idSpel + "' and`username`='"+ username +"' and`tijdstip`='"+ tijdstip +"';");
 		} catch (SQLException e) {
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
