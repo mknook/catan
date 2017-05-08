@@ -7,7 +7,7 @@ public class Catan {
 
 	public static void main(String[] args) {
 
-		//LoginFrame loginMenu = new LoginFrame();
+		LoginFrame loginMenu = new LoginFrame();
 		GameFrame g = new GameFrame();
 	}
 
