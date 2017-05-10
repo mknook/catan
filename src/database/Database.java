@@ -248,6 +248,11 @@ public class Database {
 				if(messageArray.get(index) == "'".toCharArray()[0]){
 					
 					messageArray.add(index, "'".toCharArray()[0]);
+			
+				}
+				else if(messageArray.get(index) == "\\".toCharArray()[0]){
+					
+					messageArray.add(index, "\\".toCharArray()[0]);
 					index++;
 				}
 			}
@@ -255,7 +260,7 @@ public class Database {
 			for(Character character : messageArray){
 				output = output + character.toString();
 			}
-			
+			System.out.println(output);
 			
 			Connection conn = DriverManager.getConnection(url, username, password);
 

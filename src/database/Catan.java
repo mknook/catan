@@ -9,8 +9,8 @@ public class Catan {
 
 		
 		
-		//LoginFrame loginMenu = new LoginFrame();
-		GameFrame g = new GameFrame();
+		LoginFrame loginMenu = new LoginFrame();
+		//GameFrame g = new GameFrame();
 	}
 
 }

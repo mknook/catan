@@ -86,6 +86,10 @@ public class LoginFrame extends JFrame {
 					start = new HomeFrame();
 					dispose();
 				}
+				if (!d.login(user.getText(), pass.getText())){
+					new ErrorFrame();
+					dispose();
+				}
 			}
 		});
 
