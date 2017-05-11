@@ -24,7 +24,7 @@ public class GameFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(true);
 		this.setTitle("Game");
-
+		
 		this.pack();
 		this.setVisible(true);
 	}

@@ -15,31 +15,31 @@ public class Tile {
 		this.type = type;
 	}
 
-	int getX() {
+	public int getX() {
 		return x;
 	}
 
-	int getY() {
+	public int getY() {
 		return y;
 	}
 
-	String getType() {
+	public String getType() {
 		return type;
 	}
 
-	void setX(int x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	void setY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
-	void setBandit(boolean hasBandit) {
+	public void setBandit(boolean hasBandit) {
 		this.hasBandit = hasBandit;
 	}
 
-	boolean hasBandit() {
+	public boolean hasBandit() {
 		return hasBandit;
 	}
 
@@ -49,5 +49,17 @@ public class Tile {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+	
+	public char getTypeChar(){
+		switch(type){
+		case "oreHex": return 'E';
+		case "wheatHex": return 'G';
+		case "clayHex": return 'B';
+		case "desertHex": return 'X';
+		case "woodHex": return 'H';
+		case "sheepHex": return 'W';
+		default: return 'A';
+		}
 	}
 }

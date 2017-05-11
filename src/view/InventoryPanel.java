@@ -9,7 +9,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import database.Database;
+
 public class InventoryPanel extends JPanel {
+
+	Database d = new Database();
 
 	public InventoryPanel() {
 		// de layout is 1 kolomn
@@ -24,28 +28,27 @@ public class InventoryPanel extends JPanel {
 		// met de database methodes
 		// database methodes geven aantal trerug (int)
 		JLabel info = new JLabel("Eigen Info");
-		JLabel wool = new JLabel("Wol: " /* + Database.getWool() */);
-		JLabel wheat = new JLabel("Graan: " /* + database.getWheat() */);
-		JLabel ore = new JLabel("Erts: " /* + database.getOre() */);
-		JLabel stone = new JLabel("Stone: " /* + database.getStone() */);
-		JLabel wood = new JLabel("Wood: " /* + database.getWood() */);
+		JLabel wool = new JLabel("Wol: " + d.getWool());
+		JLabel wheat = new JLabel("Graan: " + d.getWheat());
+		JLabel ore = new JLabel("Erts: " + d.getOre());
+		JLabel stone = new JLabel("Steen: " + d.getStone());
+		JLabel wood = new JLabel("Hout: " + d.getWood());
 
 		// de jlabels voor de ontwikkelingskaarten
-		JLabel knigth = new JLabel("Ridder: " /* + database.getKnigth() */);
-		JLabel invention = new JLabel(
-				"Uitvindingen: " /* + database.getInvention() */);
-		JLabel roadConstruction = new JLabel(
-				"Stratenbouw: " /* + database.getRoadConstruction() */);
-		JLabel monopoly = new JLabel(
-				"Monopolie: " /* + database.getMonopoly() */);
-		JLabel cathedral = new JLabel(
-				"Kathedraal: " /* + database.getCathedral() */);
-		JLabel liblary = new JLabel(
-				"Bibliotheek: " /* + database.getLiblary() */);
+		JLabel knigth = new JLabel("Ridder: " + d.getKnigth());
+		JLabel invention = new JLabel("Uitvindingen: " + d.getInvention());
+		JLabel roadConstruction = new JLabel("Stratenbouw: " + d.getRoadConstruction());
+		JLabel monopoly = new JLabel("Monopolie: " + d.getMonopoly());
+		JLabel cathedral = new JLabel("Kathedraal: " + d.getCathedral());
+		JLabel liblary = new JLabel("Bibliotheek: " + d.getLiblary());
+		JLabel market = new JLabel("Markt: " + d.getMarkt());
+		JLabel university = new JLabel("Universiteit: " + d.getUniversity());
+		JLabel congress = new JLabel("parlement: " + d.getCongress());
+		
+
 
 		// Label voor totale overwiningspunten
-		JLabel victoryPoints = new JLabel(
-				"overwinningspunten: " /* + database.getVictoryPoints() */);
+		JLabel victoryPoints = new JLabel("overwinningspunten: " /* + database.getVictoryPoints() */);
 
 		this.add(info);
 		this.add(wool);
@@ -60,8 +63,11 @@ public class InventoryPanel extends JPanel {
 		this.add(monopoly);
 		this.add(cathedral);
 		this.add(liblary);
+		this.add(market);
+		this.add(university);
+		this.add(congress);
 
 		this.add(victoryPoints);
-
 	}
 }
+

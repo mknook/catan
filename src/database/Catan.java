@@ -1,17 +1,17 @@
 package database;
 
 import view.GameFrame;
-import view.LoginFrame;
+import view.InventoryPanel;
 
 public class Catan {
 
 	public static void main(String[] args) {
 
-		
-		
-		LoginFrame loginMenu = new LoginFrame();
-		//GameFrame g = new GameFrame();
+		InventoryPanel p = new InventoryPanel();
+		//NewGameFrame newGame = new NewGameFrame(true);
+		//LoginFrame loginMenu = new LoginFrame();
+		GameFrame g = new GameFrame();
+		g.add(p);
 	}
 
 }
-

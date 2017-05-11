@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -21,10 +22,12 @@ public class HomeFrame extends JFrame {
 
 	private Database d;
 	private JButton invites;
+	public static int gameNr;
 
 	public HomeFrame() {
 		d = new Database();
-
+		gameNr = d.getGameNr();
+		
 		createInputFields();
 		createButtons();
 		createInviteBox();
@@ -96,9 +99,30 @@ public class HomeFrame extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					NewGameFrame g = new NewGameFrame();
+
+					int n = JOptionPane.showConfirmDialog(buttonPanel, "Wil je met een randomized bord spelen?", "willekeur",
+							JOptionPane.YES_NO_CANCEL_OPTION);
+
+					if (n == JOptionPane.YES_OPTION) {
+						NewGameFrame g = new NewGameFrame(true);
+					} else if (n == JOptionPane.NO_OPTION) {
+						NewGameFrame g = new NewGameFrame(false);
+					} 
 				}
+				
 			});
+			buttonPanel.add(game);
+		} else if (d.playerIsInGame() && d.gameNotStarted()) {
+			JButton game = new JButton("Continue to lobby");
+			game.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//LobbyFrame l = new LobbyFrame();
+				}
+				
+			});
+			game.setAlignmentX(CENTER_ALIGNMENT);
 			buttonPanel.add(game);
 		} else {
 			JButton game = new JButton("Continue game");

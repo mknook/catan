@@ -36,10 +36,10 @@ public class ChatPanel extends JPanel {
 		// removes the margin on the top
 		((FlowLayout) this.getLayout()).setVgap(0);
 
-		textArea.setPreferredSize(new Dimension(400, 450));
+		textArea.setPreferredSize(new Dimension(300, 450));
 		this.setMinimumSize(new Dimension(300, 200));
 		textArea.setEditable(false);
-		inputArea.setPreferredSize(new Dimension(400, 30));
+		inputArea.setPreferredSize(new Dimension(300, 30));
 
 		inputArea.addActionListener(new ActionListener() {
 

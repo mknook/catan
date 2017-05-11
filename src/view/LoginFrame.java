@@ -20,7 +20,7 @@ public class LoginFrame extends JFrame {
 	private JTextField pass;
 	private Database d;
 	private HomeFrame start;
-	public static String username;
+	public static String username = "Martijn";
 
 	public LoginFrame() {
 		d = new Database();
@@ -84,10 +84,6 @@ public class LoginFrame extends JFrame {
 
 					username = user.getText();
 					start = new HomeFrame();
-					dispose();
-				}
-				if (!d.login(user.getText(), pass.getText())){
-					new ErrorFrame();
 					dispose();
 				}
 			}
